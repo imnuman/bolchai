@@ -69,11 +69,19 @@ impl SidecarManager {
             .map(|p| p.parent().unwrap_or(std::path::Path::new(".")).to_path_buf())
             .unwrap_or_default();
 
-        for name in &["bolchai-engine", "bolchai-engine.exe"] {
-            let bundled = exe_dir.join("sidecar").join(name);
-            if bundled.exists() {
+        // PyInstaller --onedir output: sidecar/bolchai-engine/bolchai-engine.exe
+        // Also check flat: sidecar/bolchai-engine.exe
+        let candidates = [
+            exe_dir.join("sidecar").join("bolchai-engine").join("bolchai-engine.exe"),
+            exe_dir.join("sidecar").join("bolchai-engine.exe"),
+            exe_dir.join("sidecar").join("bolchai-engine").join("bolchai-engine"),
+            exe_dir.join("sidecar").join("bolchai-engine"),
+        ];
+
+        for candidate in &candidates {
+            if candidate.exists() {
                 return Ok(SidecarMode::Bundled(
-                    bundled.to_string_lossy().into_owned(),
+                    candidate.to_string_lossy().into_owned(),
                 ));
             }
         }

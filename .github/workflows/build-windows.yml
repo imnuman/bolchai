@@ -1,0 +1,109 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # ── Python sidecar build ──────────────────────────────
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Python dependencies
+        run: |
+          pip install -r sidecar/requirements.txt
+          pip install pyinstaller
+
+      - name: Build sidecar with PyInstaller
+        run: |
+          pyinstaller sidecar/main.py `
+            --name bolchai-engine `
+            --distpath sidecar-dist `
+            --workpath sidecar-build `
+            --specpath sidecar-build `
+            --onedir `
+            --noconfirm `
+            --collect-all uvicorn `
+            --collect-all fastapi `
+            --collect-all pydantic `
+            --collect-all pydantic_core `
+            --collect-all litellm `
+            --collect-all sse_starlette `
+            --collect-all jupyter_client `
+            --collect-all ipykernel `
+            --collect-all IPython `
+            --collect-all zmq `
+            --collect-all tornado `
+            --collect-all traitlets `
+            --collect-all jupyter_core `
+            --collect-all comm `
+            --collect-all starlette `
+            --collect-all tokentrim `
+            --hidden-import ipykernel_launcher `
+            --hidden-import ipykernel.kernelapp `
+            --hidden-import jupyter_client.kernelapp `
+            --hidden-import asyncio `
+            --hidden-import multiprocessing `
+            --hidden-import uvicorn.logging `
+            --hidden-import uvicorn.loops `
+            --hidden-import uvicorn.loops.auto `
+            --hidden-import uvicorn.protocols `
+            --hidden-import uvicorn.protocols.http `
+            --hidden-import uvicorn.protocols.http.auto `
+            --hidden-import uvicorn.protocols.websockets `
+            --hidden-import uvicorn.protocols.websockets.auto `
+            --hidden-import uvicorn.lifespan `
+            --hidden-import uvicorn.lifespan.on
+
+      - name: Verify sidecar build
+        run: |
+          dir sidecar-dist\bolchai-engine
+          sidecar-dist\bolchai-engine\bolchai-engine.exe --help
+
+      # ── Tauri build ───────────────────────────────────────
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 'lts/*'
+
+      - name: Install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Rust cache
+        uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+
+      - name: Install frontend dependencies
+        run: npm install
+
+      - name: Build Tauri app
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Bolchai v__VERSION__'
+          releaseBody: 'Download the .exe installer below to install Bolchai.'
+          releaseDraft: true
+          prerelease: false
+
+      # ── Upload standalone artifact ────────────────────────
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bolchai-windows-installer
+          path: src-tauri/target/release/bundle/nsis/*.exe
+          retention-days: 30
