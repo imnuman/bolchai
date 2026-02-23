@@ -1,0 +1,10 @@
+node_modules/
+dist/
+target/
+*.pyc
+__pycache__/
+.env
+*.egg-info/
+build/
+*.spec
+sidecar/dist/

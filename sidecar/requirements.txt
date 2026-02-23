@@ -1,0 +1,9 @@
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+litellm==1.55.10
+pydantic==2.10.3
+pydantic-settings==2.7.0
+sse-starlette==2.2.1
+jupyter-client==8.6.3
+ipykernel==6.29.5
+tokentrim==0.1.13
