@@ -26,11 +26,52 @@ def respond(interpreter):
         if len(interpreter.messages) == 0:
             break
 
-        # If last message is not code, call LLM
-        if interpreter.messages[-1]["type"] != "code":
+        # If last message is code, skip LLM call and go straight to execution
+        if interpreter.messages[-1]["type"] == "code":
+            pass  # Fall through to code execution below
+        else:
+            # Call LLM and accumulate the response
+            current_msg = None
+
             try:
                 for chunk in interpreter.llm.run(messages_for_llm):
                     yield {"role": "assistant", **chunk}
+
+                    # Accumulate into messages
+                    if chunk.get("type") == "message":
+                        if current_msg is None or current_msg["type"] != "message":
+                            if current_msg is not None:
+                                interpreter.messages.append(current_msg)
+                            current_msg = {
+                                "role": "assistant",
+                                "type": "message",
+                                "content": chunk.get("content", ""),
+                            }
+                        else:
+                            current_msg["content"] += chunk.get("content", "")
+                    elif chunk.get("type") == "code":
+                        if current_msg is not None and current_msg["type"] != "code":
+                            interpreter.messages.append(current_msg)
+                            current_msg = {
+                                "role": "assistant",
+                                "type": "code",
+                                "format": chunk.get("format", "python"),
+                                "content": chunk.get("content", ""),
+                            }
+                        elif current_msg is None:
+                            current_msg = {
+                                "role": "assistant",
+                                "type": "code",
+                                "format": chunk.get("format", "python"),
+                                "content": chunk.get("content", ""),
+                            }
+                        else:
+                            current_msg["content"] += chunk.get("content", "")
+
+                # Append final accumulated message
+                if current_msg is not None:
+                    interpreter.messages.append(current_msg)
+
             except Exception as e:
                 error_msg = str(e)
                 if "auth" in error_msg.lower() or "api key" in error_msg.lower():
@@ -136,12 +177,5 @@ def respond(interpreter):
                 }
 
         else:
-            # LLM didn't produce code, check if we should loop
-            if (
-                interpreter.messages
-                and interpreter.messages[-1].get("role") == "assistant"
-            ):
-                # Done — LLM chose not to write code
-                break
-
+            # LLM didn't produce code — we're done
             break

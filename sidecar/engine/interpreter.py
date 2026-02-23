@@ -96,6 +96,7 @@ class BolchaiInterpreter:
     def chat(self, message):
         """
         Main entry point. Takes a user message, yields LMC chunks.
+        Message accumulation is handled by respond().
         """
         self.messages.append({
             "role": "user",
@@ -103,47 +104,7 @@ class BolchaiInterpreter:
             "content": message,
         })
 
-        # Track current assistant message being built
-        current_assistant_msg = None
-
-        for chunk in respond(self):
-            yield chunk
-
-            # Accumulate assistant messages
-            if chunk.get("role") == "assistant":
-                if chunk.get("type") == "message":
-                    if current_assistant_msg is None or current_assistant_msg["type"] != "message":
-                        if current_assistant_msg is not None:
-                            self.messages.append(current_assistant_msg)
-                        current_assistant_msg = {
-                            "role": "assistant",
-                            "type": "message",
-                            "content": chunk.get("content", ""),
-                        }
-                    else:
-                        current_assistant_msg["content"] += chunk.get("content", "")
-                elif chunk.get("type") == "code":
-                    if current_assistant_msg is not None and current_assistant_msg["type"] != "code":
-                        self.messages.append(current_assistant_msg)
-                        current_assistant_msg = {
-                            "role": "assistant",
-                            "type": "code",
-                            "format": chunk.get("format", "python"),
-                            "content": chunk.get("content", ""),
-                        }
-                    elif current_assistant_msg is None:
-                        current_assistant_msg = {
-                            "role": "assistant",
-                            "type": "code",
-                            "format": chunk.get("format", "python"),
-                            "content": chunk.get("content", ""),
-                        }
-                    else:
-                        current_assistant_msg["content"] += chunk.get("content", "")
-
-        # Append last assistant message
-        if current_assistant_msg is not None:
-            self.messages.append(current_assistant_msg)
+        yield from respond(self)
 
     def confirm(self, approved):
         """Called from the API when user confirms/denies code execution."""
