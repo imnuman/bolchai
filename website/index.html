@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bolchai — Talk to Your Computer</title>
+  <meta name="description" content="Bolchai (বলছি) is a free desktop AI agent that lets you control your computer with natural language. Download for Windows.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💬</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <span class="logo-icon">⌘</span>
+        <span class="logo-text">Bolchai</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#faq">FAQ</a>
+        <a href="https://github.com/imnuman/bolchai" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-badge">Free &amp; Open Source</div>
+      <h1 class="hero-title">Talk to Your Computer</h1>
+      <p class="hero-subtitle">
+        Bolchai (বলছি — "I am speaking") is an AI agent that lives on your desktop.
+        Ask it anything — it writes code, runs it, and gets things done.
+      </p>
+      <div class="hero-actions">
+        <a href="https://github.com/imnuman/bolchai/releases/download/v0.1.0/Bolchai_0.1.0_x64-setup.exe" class="btn btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Windows
+        </a>
+        <a href="https://github.com/imnuman/bolchai" class="btn btn-secondary" target="_blank" rel="noopener">
+          View Source
+        </a>
+      </div>
+      <p class="hero-meta">Windows 10/11 &middot; 40 MB &middot; v0.1.0</p>
+    </div>
+  </section>
+
+  <!-- Demo -->
+  <section class="demo">
+    <div class="demo-inner">
+      <div class="terminal">
+        <div class="terminal-bar">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">Bolchai</span>
+        </div>
+        <div class="terminal-body">
+          <div class="term-line user">
+            <span class="term-role">You</span>
+            <span class="term-text">Create a chart of Bangladesh's GDP growth over the last 10 years</span>
+          </div>
+          <div class="term-line assistant">
+            <span class="term-role">Bolchai</span>
+            <span class="term-text">I'll fetch the data and create a chart for you.</span>
+          </div>
+          <div class="term-line code">
+            <pre><code>import matplotlib.pyplot as plt
+
+years = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+gdp_growth = [6.6, 7.1, 7.3, 7.9, 8.2, 3.4, 6.9, 7.1, 5.8, 6.0]
+
+plt.figure(figsize=(10, 5))
+plt.plot(years, gdp_growth, marker='o', color='#e94560')
+plt.title("Bangladesh GDP Growth Rate")
+plt.ylabel("Growth %")
+plt.grid(True, alpha=0.3)
+plt.savefig("gdp_growth.png")
+print("Chart saved!")</code></pre>
+          </div>
+          <div class="term-line output">
+            <span class="term-role">Output</span>
+            <span class="term-text">Chart saved!</span>
+          </div>
+          <div class="term-line assistant">
+            <span class="term-role">Bolchai</span>
+            <span class="term-text">Done! The chart has been saved as gdp_growth.png in your current directory.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="features">
+    <div class="features-inner">
+      <h2 class="section-title">What Can Bolchai Do?</h2>
+      <p class="section-subtitle">Describe what you want in plain language. Bolchai handles the rest.</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Data Analysis</h3>
+          <p>Analyze spreadsheets, create charts, and process CSV files. Just describe the analysis you need.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <h3>File Management</h3>
+          <p>Organize files, batch rename, convert formats, and automate repetitive file operations.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🐍</div>
+          <h3>Python &amp; PowerShell</h3>
+          <p>Runs Python and PowerShell code natively on your machine. No sandboxes, no limits.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔧</div>
+          <h3>System Tasks</h3>
+          <p>Install software, configure settings, manage processes — all through conversation.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Web Scraping</h3>
+          <p>Extract data from websites, download files, and automate web tasks with natural language.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔑</div>
+          <h3>Bring Your Own Key</h3>
+          <p>Works with any LLM provider — OpenAI, Anthropic, Fireworks, local models via Ollama. You own your API key.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how-it-works">
+    <div class="how-inner">
+      <h2 class="section-title">How It Works</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h3>Install</h3>
+          <p>Download and run the installer. No Python or dependencies needed — everything is bundled.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h3>Configure</h3>
+          <p>Enter your API key in Settings. Pick any LLM model supported by LiteLLM.</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h3>Talk</h3>
+          <p>Type what you want done. Bolchai generates code, asks for your approval, then executes it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <div class="faq-inner">
+      <h2 class="section-title">FAQ</h2>
+      <div class="faq-list">
+        <details class="faq-item">
+          <summary>Is Bolchai free?</summary>
+          <p>Yes. Bolchai is free and open source under the MIT license. You need your own LLM API key, which may have costs depending on the provider.</p>
+        </details>
+        <details class="faq-item">
+          <summary>What LLM providers are supported?</summary>
+          <p>Any provider supported by LiteLLM — OpenAI, Anthropic, Google, Fireworks AI, Together AI, Groq, Ollama (local), and many more. Just enter the model name and API key.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Is it safe to run code on my machine?</summary>
+          <p>Bolchai asks for your permission before executing any code. You see exactly what will run and can approve or skip each execution. You're always in control.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Does it work offline?</summary>
+          <p>If you use a local model through Ollama, yes. Otherwise, it needs internet to reach the LLM API.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Why "Bolchai"?</summary>
+          <p>বলছি (Bolchai) means "I am speaking" in Bangla. It's your computer, speaking back to you.</p>
+        </details>
+        <details class="faq-item">
+          <summary>Can I use it on Mac or Linux?</summary>
+          <p>Currently Windows only. Mac and Linux builds are planned.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-inner">
+      <h2>Ready to talk to your computer?</h2>
+      <a href="https://github.com/imnuman/bolchai/releases/download/v0.1.0/Bolchai_0.1.0_x64-setup.exe" class="btn btn-primary btn-large">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Bolchai
+      </a>
+      <p class="cta-meta">Windows 10/11 &middot; Free &middot; Open Source</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="https://github.com/imnuman/bolchai/releases">Releases</a>
+          <a href="https://github.com/imnuman/bolchai/blob/main/README.md">Documentation</a>
+          <a href="https://github.com/imnuman/bolchai/blob/main/CHANGELOG.md">Changelog</a>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <a href="https://github.com/imnuman/bolchai" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://github.com/imnuman/bolchai/issues" target="_blank" rel="noopener">Issues</a>
+          <a href="https://github.com/imnuman/bolchai/discussions" target="_blank" rel="noopener">Discussions</a>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="https://github.com/imnuman/bolchai/blob/main/LICENSE">License (MIT)</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Bolchai. Built in Bangladesh.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>
